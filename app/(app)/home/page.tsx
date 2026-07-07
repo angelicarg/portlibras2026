@@ -7,36 +7,37 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 // TODO: substituir por dados reais (user_trilha_progress) quando o Supabase estiver plugado.
 const mockProficiencia = { libras: "iniciante", portugues: "iniciante" };
 
-const mockTrilhas: Array<{
+// As 4 Jornadas do Centro de Conexões — "Geral" não aparece aqui, virou
+// "Desafios Livres" no hub (ver card abaixo do mapa).
+const mockJornadas: Array<{
   id: TrilhaId;
   nome: string;
   estado: TrilhaNodeState;
   top: number;
   left: number;
 }> = [
-  { id: "linguagens", nome: "Linguagens", estado: "bloqueada", top: 18, left: 30 },
-  { id: "arte", nome: "Matemática e Artes", estado: "bloqueada", top: 15, left: 68 },
-  { id: "cotidiano", nome: "Cotidiano", estado: "em-andamento", top: 50, left: 14 },
-  { id: "espaco", nome: "Espaço", estado: "bloqueada", top: 48, left: 84 },
-  { id: "geral", nome: "Geral", estado: "concluida", top: 80, left: 50 },
+  { id: "linguagens", nome: "Linguagens", estado: "bloqueada", top: 18, left: 22 },
+  { id: "pensadores", nome: "Grandes Pensadores", estado: "bloqueada", top: 18, left: 78 },
+  { id: "sociedade", nome: "Vida em Sociedade", estado: "em-andamento", top: 78, left: 22 },
+  { id: "espaco", nome: "Exploração Espacial", estado: "bloqueada", top: 78, left: 78 },
 ];
 
-function recomendaCotidiano(proficiencia: typeof mockProficiencia) {
+function recomendaSociedade(proficiencia: typeof mockProficiencia) {
   return proficiencia.libras === "iniciante" && proficiencia.portugues === "iniciante";
 }
 
 export default function HomePage() {
   const router = useRouter();
-  const cotidianoRecomendada = recomendaCotidiano(mockProficiencia);
+  const sociedadeRecomendada = recomendaSociedade(mockProficiencia);
 
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col gap-8 px-6 py-10">
       <div>
         <h1 className="font-display text-2xl font-semibold text-foreground">
-          Escolha sua trilha
+          Centro de Conexões
         </h1>
         <p className="text-sm text-muted">
-          Nenhuma ordem obrigatória — jogue as trilhas na sequência que quiser.
+          Escolha uma Jornada — nenhuma ordem obrigatória, jogue na sequência que quiser.
         </p>
       </div>
 
@@ -47,37 +48,48 @@ export default function HomePage() {
           preserveAspectRatio="none"
         >
           <path
-            d="M 50 88 C 20 70, 15 55, 15 48 M 50 88 C 80 70, 88 55, 88 48 M 15 48 C 20 30, 28 18, 33 15 M 88 48 C 82 25, 75 12, 71 11"
+            d="M 50 50 C 35 40, 28 30, 22 22 M 50 50 C 65 40, 72 30, 78 22 M 50 50 C 35 60, 28 70, 22 78 M 50 50 C 65 60, 72 70, 78 78"
             fill="none"
             stroke="var(--border)"
             strokeWidth="1.2"
             strokeDasharray="3 3"
           />
+          <circle cx="50" cy="50" r="3" fill="var(--secondary)" />
         </svg>
 
-        {mockTrilhas.map((trilha) => (
+        {mockJornadas.map((jornada) => (
           <div
-            key={trilha.id}
+            key={jornada.id}
             className="absolute -translate-x-1/2 -translate-y-1/2"
-            style={{ top: `${trilha.top}%`, left: `${trilha.left}%` }}
+            style={{ top: `${jornada.top}%`, left: `${jornada.left}%` }}
           >
             <TrilhaNode
-              trilha={trilha.id}
-              nome={trilha.nome}
-              estado={trilha.estado}
-              recomendada={trilha.id === "cotidiano" && cotidianoRecomendada}
-              onClick={() => router.push(`/trilhas/${trilha.id}`)}
+              trilha={jornada.id}
+              nome={jornada.nome}
+              estado={jornada.estado}
+              recomendada={jornada.id === "sociedade" && sociedadeRecomendada}
+              onClick={() => router.push(`/jornadas/${jornada.id}`)}
             />
           </div>
         ))}
       </div>
 
-      <Card>
-        <CardTitle>Revisão pendente</CardTitle>
-        <CardDescription className="mt-1">
-          Você tem 3 questões erradas esperando pra voltar — elas reaparecem aos poucos, não de uma vez.
-        </CardDescription>
-      </Card>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Card>
+          <CardTitle>Desafios livres</CardTitle>
+          <CardDescription className="mt-1">
+            Conteúdo avulso do Centro de Conexões, fora das Jornadas temáticas — bom
+            ponto de partida se você ainda não sabe por onde começar.
+          </CardDescription>
+        </Card>
+        <Card>
+          <CardTitle>Revisão pendente</CardTitle>
+          <CardDescription className="mt-1">
+            Você tem 3 questões erradas esperando pra voltar — elas reaparecem aos
+            poucos, não de uma vez.
+          </CardDescription>
+        </Card>
+      </div>
     </div>
   );
 }

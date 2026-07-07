@@ -111,13 +111,17 @@ create table user_achievements (
   primary key (user_id, achievement_type_id)
 );
 
--- SEED: initial trilhas
+-- SEED: initial trilhas ("Jornadas", per the Centro de Conexões worldbuilding pass)
 insert into trilhas (slug, name, description, is_geral) values
-  ('espaco', 'Espaço', 'Física, química, biologia e atualidades, ambientadas no espaço.', false),
-  ('matematica-artes', 'Matemática e Artes', 'Uma viagem ao passado, na era de grandes pensadores (da Vinci, Bhaskara e outros).', false),
-  ('linguagens', 'Linguagens', 'Imersão na natureza e em civilizações antigas.', false),
-  ('cotidiano', 'Cotidiano', 'Vocabulário básico do dia a dia (rotina, família, casa, comida).', false),
-  ('geral', 'Geral', 'Trilha coringa para conteúdo que não se encaixa em nenhuma trilha temática.', true);
+  ('espaco', 'Jornada da Exploração Espacial', 'Observatório e Centro Espacial — física, química, biologia e atualidades, ambientadas no espaço.', false),
+  ('matematica-artes', 'Jornada dos Grandes Pensadores', 'Cidade do Conhecimento — uma viagem ao passado, na era de grandes pensadores (da Vinci, Bhaskara e outros).', false),
+  ('linguagens', 'Jornada das Linguagens', 'Território da Natureza e das Culturas — imersão na natureza e em civilizações antigas.', false),
+  ('cotidiano', 'Jornada da Vida em Sociedade', 'Cidade Viva — vocabulário básico do dia a dia (rotina, família, casa, comida).', false),
+  ('geral', 'Desafios Livres', 'Conteúdo avulso do Centro de Conexões, fora das Jornadas temáticas.', true);
+
+-- NOTE: is_geral trilhas are not surfaced as their own map node in the UI — they're
+-- presented as "Desafios Livres" inside the Centro de Conexões hub instead. See
+-- migration_002_jornadas_rename.sql for the naming rationale.
 
 -- NOTE: Row Level Security policies are intentionally not included here yet —
 -- to be designed alongside the auth/role implementation, not before.

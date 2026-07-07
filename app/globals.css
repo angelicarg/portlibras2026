@@ -21,12 +21,11 @@
   --danger: #c0483f;
   --danger-foreground: #fff5f3;
 
-  /* Trilhas — cada uma com identidade própria dentro da paleta geral */
-  --trilha-espaco: #3c4a7a;
-  --trilha-arte: #b8863c;
-  --trilha-linguagens: #4c7a5c;
-  --trilha-cotidiano: #d9633b;
-  --trilha-geral: #8a7f70;
+  /* Jornadas — cores alinhadas ao Masterplan do Centro de Conexões */
+  --trilha-espaco: #3c4a7a; /* Exploração Espacial — azul */
+  --trilha-pensadores: #6b4a8a; /* Grandes Pensadores — roxo */
+  --trilha-linguagens: #4c7a5c; /* Linguagens — verde */
+  --trilha-sociedade: #d9633b; /* Vida em Sociedade — laranja */
 
   --radius: 1rem;
 }
@@ -50,10 +49,9 @@
   --color-danger-foreground: var(--danger-foreground);
 
   --color-trilha-espaco: var(--trilha-espaco);
-  --color-trilha-arte: var(--trilha-arte);
+  --color-trilha-pensadores: var(--trilha-pensadores);
   --color-trilha-linguagens: var(--trilha-linguagens);
-  --color-trilha-cotidiano: var(--trilha-cotidiano);
-  --color-trilha-geral: var(--trilha-geral);
+  --color-trilha-sociedade: var(--trilha-sociedade);
 
   --radius-card: var(--radius);
 

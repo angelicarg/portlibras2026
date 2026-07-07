@@ -1,20 +1,16 @@
 import { cn } from "@/lib/cn";
 
-export type TrilhaId =
-  | "espaco"
-  | "arte"
-  | "linguagens"
-  | "cotidiano"
-  | "geral";
+// As 4 Jornadas do Centro de Conexões (worldbuilding pass) — "Geral" não é mais
+// um nó de trilha, virou "Desafios Livres" dentro do hub (ver TrilhaNode home).
+export type TrilhaId = "espaco" | "pensadores" | "linguagens" | "sociedade";
 
 export type TrilhaNodeState = "bloqueada" | "em-andamento" | "concluida";
 
 const trilhaColorVar: Record<TrilhaId, string> = {
   espaco: "var(--trilha-espaco)",
-  arte: "var(--trilha-arte)",
+  pensadores: "var(--trilha-pensadores)",
   linguagens: "var(--trilha-linguagens)",
-  cotidiano: "var(--trilha-cotidiano)",
-  geral: "var(--trilha-geral)",
+  sociedade: "var(--trilha-sociedade)",
 };
 
 const stateLabel: Record<TrilhaNodeState, string> = {
