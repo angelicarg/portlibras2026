@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { TrilhaNode, type TrilhaId, type TrilhaNodeState } from "@/components/ui/trilha-node";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import { LumenGuiaDemo } from "@/components/demo/lumen-guia-demo";
 
 // TODO: substituir por dados reais (user_trilha_progress) quando o Supabase estiver plugado.
 const mockProficiencia = { libras: "iniciante", portugues: "iniciante" };
@@ -90,6 +91,8 @@ export default function HomePage() {
           </CardDescription>
         </Card>
       </div>
+
+      <LumenGuiaDemo />
     </div>
   );
 }

@@ -27,6 +27,9 @@
   --trilha-linguagens: #4c7a5c; /* Linguagens — verde */
   --trilha-sociedade: #d9633b; /* Vida em Sociedade — laranja */
 
+  /* Lumen Guia — Núcleo de Luz turquesa (Character Bible PL-ART-001) */
+  --lumen-guia: #3fb0a8;
+
   --radius: 1rem;
 }
 
@@ -52,6 +55,8 @@
   --color-trilha-pensadores: var(--trilha-pensadores);
   --color-trilha-linguagens: var(--trilha-linguagens);
   --color-trilha-sociedade: var(--trilha-sociedade);
+
+  --color-lumen-guia: var(--lumen-guia);
 
   --radius-card: var(--radius);
 
