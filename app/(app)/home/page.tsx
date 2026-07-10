@@ -2,11 +2,24 @@
 
 import { useRouter } from "next/navigation";
 import { TrilhaNode, type TrilhaId, type TrilhaNodeState } from "@/components/ui/trilha-node";
+import { LumenJornada } from "@/components/ui/lumen-jornada";
+import type { VisualSkin } from "@/components/ui/lumen-guia";
+import type { LumenArteExpressao } from "@/lib/lumens";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { LumenGuiaDemo } from "@/components/demo/lumen-guia-demo";
 
 // TODO: substituir por dados reais (user_trilha_progress) quando o Supabase estiver plugado.
 const mockProficiencia = { libras: "iniciante", portugues: "iniciante" };
+
+// TODO: substituir pelo visual_skin real do perfil quando o Supabase estiver plugado
+// (mesmo valor mockado em app/(app)/layout.tsx, mantidos em sincronia por enquanto).
+const mockVisualSkin: VisualSkin = "joy";
+
+const expressaoPorEstado: Record<TrilhaNodeState, LumenArteExpressao> = {
+  bloqueada: "calmo",
+  "em-andamento": "neutro",
+  concluida: "feliz",
+};
 
 // As 4 Jornadas do Centro de Conexões — "Geral" não aparece aqui, virou
 // "Desafios Livres" no hub (ver card abaixo do mapa).
@@ -64,13 +77,21 @@ export default function HomePage() {
             className="absolute -translate-x-1/2 -translate-y-1/2"
             style={{ top: `${jornada.top}%`, left: `${jornada.left}%` }}
           >
-            <TrilhaNode
-              trilha={jornada.id}
-              nome={jornada.nome}
-              estado={jornada.estado}
-              recomendada={jornada.id === "sociedade" && sociedadeRecomendada}
-              onClick={() => router.push(`/jornadas/${jornada.id}`)}
-            />
+            <div className="flex flex-col items-center gap-1">
+              <LumenJornada
+                jornada={jornada.id}
+                skin={mockVisualSkin}
+                expressao={expressaoPorEstado[jornada.estado]}
+                size="sm"
+              />
+              <TrilhaNode
+                trilha={jornada.id}
+                nome={jornada.nome}
+                estado={jornada.estado}
+                recomendada={jornada.id === "sociedade" && sociedadeRecomendada}
+                onClick={() => router.push(`/jornadas/${jornada.id}`)}
+              />
+            </div>
           </div>
         ))}
       </div>
