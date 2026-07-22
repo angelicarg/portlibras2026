@@ -69,3 +69,67 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+/* Pulso do marcador de portal ainda não descoberto (Centro de Conexões) */
+@keyframes portal-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.95;
+  }
+}
+
+/* Caminhos dos Lumens ambiente perambulando pela praça (Centro de Conexões) —
+   posições em % relativas ao container, cada uma passando perto do centro/portais. */
+@keyframes lumen-path-a {
+  0%,
+  100% {
+    top: 62%;
+    left: 18%;
+  }
+  50% {
+    top: 44%;
+    left: 52%;
+  }
+}
+
+@keyframes lumen-path-b {
+  0%,
+  100% {
+    top: 72%;
+    left: 72%;
+  }
+  50% {
+    top: 40%;
+    left: 42%;
+  }
+}
+
+/* Brilho da insígnia conquistada, sempre visível na árvore (Centro de Conexões) */
+@keyframes insignia-glow {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 3px rgba(255, 214, 120, 0.5));
+  }
+  50% {
+    transform: scale(1.08);
+    filter: drop-shadow(0 0 9px rgba(255, 214, 120, 0.85));
+  }
+}
+
+@keyframes lumen-path-c {
+  0%,
+  100% {
+    top: 28%;
+    left: 60%;
+  }
+  50% {
+    top: 58%;
+    left: 30%;
+  }
+}

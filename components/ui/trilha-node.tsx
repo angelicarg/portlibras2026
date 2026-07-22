@@ -23,28 +23,40 @@ export interface TrilhaNodeProps {
   trilha: TrilhaId;
   nome: string;
   estado: TrilhaNodeState;
+  /** Quantas insígnias o jogador já ganhou nessa Jornada (pode repetir a
+   * Jornada pra ganhar outras — não é mais um "concluído/não concluído"
+   * binário, ver conversa 2026-07-22). Quando > 0, isso substitui o rótulo
+   * de estado normal. */
+  conquistas?: number;
   recomendada?: boolean;
   onClick?: () => void;
   className?: string;
+}
+
+function labelConquistas(conquistas: number) {
+  return conquistas === 1 ? "1 conquista concluída" : `${conquistas} conquistas concluídas`;
 }
 
 export function TrilhaNode({
   trilha,
   nome,
   estado,
+  conquistas = 0,
   recomendada,
   onClick,
   className,
 }: TrilhaNodeProps) {
   const cor = trilhaColorVar[trilha];
   const bloqueada = estado === "bloqueada";
+  const temConquista = conquistas > 0;
+  const label = temConquista ? labelConquistas(conquistas) : stateLabel[estado];
 
   return (
     <button
       type="button"
       onClick={onClick}
       disabled={bloqueada}
-      aria-label={`Trilha ${nome} — ${stateLabel[estado]}`}
+      aria-label={`Trilha ${nome} — ${label}`}
       className={cn(
         "group flex flex-col items-center gap-2 disabled:cursor-not-allowed",
         className
@@ -60,7 +72,7 @@ export function TrilhaNode({
           borderColor: recomendada ? "var(--secondary)" : "transparent",
         }}
       >
-        {estado === "concluida" ? "★" : nome.charAt(0)}
+        {temConquista ? "★" : nome.charAt(0)}
         {recomendada && (
           <span className="absolute -top-2 -right-2 rounded-full bg-secondary px-2 py-0.5 text-[10px] font-medium text-secondary-foreground shadow">
             pra você
@@ -68,7 +80,7 @@ export function TrilhaNode({
         )}
       </span>
       <span className="text-sm font-medium text-foreground">{nome}</span>
-      <span className="text-xs text-muted">{stateLabel[estado]}</span>
+      <span className="text-xs text-muted">{label}</span>
     </button>
   );
 }

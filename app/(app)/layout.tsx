@@ -6,7 +6,7 @@ const mockUser = {
   nome: "Ana",
   activeRole: "jogador" as const,
   pontos: 128,
-  visualSkin: "joy" as const,
+  visualSkin: "kids" as const,
   diasInativo: 0,
   ultimaResposta: "correta" as const,
 };
