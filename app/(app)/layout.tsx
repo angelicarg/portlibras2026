@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { AppHeader } from "@/components/shell/app-header";
+import { LumenGuiaFlutuante } from "@/components/shell/lumen-guia-flutuante";
 import { getExpressao, getGlowTier } from "@/lib/lumen-guia";
 import { createClient } from "@/lib/supabase/server";
 
@@ -38,12 +39,16 @@ export default async function AppLayout({
         nome={profile.display_name}
         baseRole={profile.base_role}
         activeRole={profile.active_role}
-        pontos={profile.points}
-        visualSkin={profile.visual_skin}
-        lumenGlow={lumenGlow}
-        lumenExpressao={lumenExpressao}
       />
       <main className="flex flex-1 flex-col bg-background">{children}</main>
+      {profile.active_role === "jogador" && (
+        <LumenGuiaFlutuante
+          visualSkin={profile.visual_skin}
+          lumenGlow={lumenGlow}
+          lumenExpressao={lumenExpressao}
+          pontos={profile.points}
+        />
+      )}
     </>
   );
 }

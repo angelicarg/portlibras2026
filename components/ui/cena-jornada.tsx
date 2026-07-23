@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { LumenJornada } from "@/components/ui/lumen-jornada";
 import { CenaBoasVindas } from "@/components/ui/cena-boas-vindas";
+import { CenaExpansivel } from "@/components/ui/cena-expansivel";
 import type { VisualSkin } from "@/components/ui/lumen-guia";
 import type { LumenExpressao, LumenGlowTier } from "@/lib/lumen-guia";
 import type { TrilhaId } from "@/components/ui/trilha-node";
@@ -41,7 +42,7 @@ export function CenaJornada({ jornada, nome, skin, corVar, textoBoasVindas, lume
         </Link>
       </div>
 
-      <div className="relative aspect-[3/2] w-full overflow-hidden rounded-card border border-border bg-surface">
+      <CenaExpansivel>
         <Image
           src={cenarioSrc(jornada, skin)}
           alt={`Cenário da Jornada ${nome}`}
@@ -61,7 +62,7 @@ export function CenaJornada({ jornada, nome, skin, corVar, textoBoasVindas, lume
                 animationDelay: lumen.delay,
               }}
             >
-              <LumenJornada jornada={jornada} skin={skin} expressao="feliz" size="sm" />
+              <LumenJornada jornada={jornada} skin={skin} expressao="feliz" size="md" />
             </span>
           ))}
         </div>
@@ -91,7 +92,7 @@ export function CenaJornada({ jornada, nome, skin, corVar, textoBoasVindas, lume
           expressao={"alegre" as LumenExpressao}
           texto={textoBoasVindas}
         />
-      </div>
+      </CenaExpansivel>
     </div>
   );
 }

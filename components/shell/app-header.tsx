@@ -4,8 +4,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { LumenGuia, type VisualSkin } from "@/components/ui/lumen-guia";
-import type { LumenExpressao, LumenGlowTier } from "@/lib/lumen-guia";
 import { createClient } from "@/lib/supabase/client";
 
 type Role = "jogador" | "professor" | "admin";
@@ -29,21 +27,9 @@ export interface AppHeaderProps {
   nome: string;
   baseRole: Role;
   activeRole: Role;
-  pontos: number;
-  visualSkin: VisualSkin;
-  lumenGlow: LumenGlowTier;
-  lumenExpressao: LumenExpressao;
 }
 
-export function AppHeader({
-  nome,
-  baseRole,
-  activeRole,
-  pontos,
-  visualSkin,
-  lumenGlow,
-  lumenExpressao,
-}: AppHeaderProps) {
+export function AppHeader({ nome, baseRole, activeRole }: AppHeaderProps) {
   const router = useRouter();
   const [trocando, setTrocando] = useState(false);
   const opcoes = opcoesDeTroca[baseRole];
@@ -87,12 +73,6 @@ export function AppHeader({
           )}
         </div>
         <div className="flex items-center gap-4">
-          <LumenGuia skin={visualSkin} glow={lumenGlow} expressao={lumenExpressao} size="sm" />
-          {activeRole === "jogador" && (
-            <span className="text-sm font-medium text-foreground">
-              ⭐ {pontos} pts
-            </span>
-          )}
           {opcoes.length > 1 ? (
             <select
               value={activeRole}

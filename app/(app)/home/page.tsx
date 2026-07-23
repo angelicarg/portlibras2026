@@ -6,6 +6,7 @@ import { TrilhaNode, type TrilhaId, type TrilhaNodeState } from "@/components/ui
 import { LumenJornada } from "@/components/ui/lumen-jornada";
 import type { VisualSkin } from "@/components/ui/lumen-guia";
 import { CenaBoasVindas } from "@/components/ui/cena-boas-vindas";
+import { CenaExpansivel } from "@/components/ui/cena-expansivel";
 import type { LumenArteExpressao } from "@/lib/lumens";
 import { arvoreSrc } from "@/lib/arvore";
 import { insigniaSrc, insigniaVariantes } from "@/lib/insignias";
@@ -108,7 +109,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      <div className="relative aspect-[3/2] w-full overflow-hidden rounded-card border border-border bg-surface">
+      <CenaExpansivel>
         <Image
           src={arvoreSrc(mockVisualSkin)}
           alt="Árvore das Conexões, no centro do pátio do Centro de Conexões"
@@ -156,7 +157,7 @@ export default function HomePage() {
                 animationDelay: lumen.delay,
               }}
             >
-              <LumenJornada jornada={lumen.jornada} skin={mockVisualSkin} expressao="feliz" size="sm" />
+              <LumenJornada jornada={lumen.jornada} skin={mockVisualSkin} expressao="feliz" size="md" />
             </span>
           ))}
         </div>
@@ -231,7 +232,7 @@ export default function HomePage() {
           expressao={mockLumenGuia.expressao}
           texto="Cada portal ao redor da árvore leva a uma Jornada de aprendizado diferente. Escolha o que quiser — não tem ordem certa — e comece por ali!"
         />
-      </div>
+      </CenaExpansivel>
 
       {/* Galeria de insígnias por Jornada — primeira versão da arte
           (2026-07-22), só pra ver como fica renderizada lado a lado. A
