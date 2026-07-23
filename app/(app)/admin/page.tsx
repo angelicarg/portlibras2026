@@ -1,6 +1,16 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { QuestaoParaAprovar } from "./questao-para-aprovar";
+import { QuestaoItem } from "./questao-item";
+import type { QuestaoPreviewData } from "@/components/questao-preview";
+
+interface QuestaoAdmin extends QuestaoPreviewData {
+  id: string;
+  status: string;
+  rejection_reason: string | null;
+}
+
+const CAMPOS =
+  "id, title, prompt_text, prompt_video_url, image_url, options, answer, correct_feedback_video_url, incorrect_feedback_video_url, libras_level, portugues_level, type, espaco_numero, status, rejection_reason, trilhas(name)";
 
 export default async function AdminPage() {
   const supabase = await createClient();
@@ -17,29 +27,50 @@ export default async function AdminPage() {
 
   if (profile?.active_role !== "admin") redirect("/home");
 
-  const { data: pendentes } = await supabase
+  // Uma consulta só, agrupada em memória por status — mais simples do que
+  // 3 idas ao banco pra 3 listas pequenas.
+  const { data: questoes } = await supabase
     .from("questions")
-    .select(
-      "id, title, prompt_text, prompt_video_url, image_url, options, answer, correct_feedback_video_url, incorrect_feedback_video_url, libras_level, portugues_level, type, espaco_numero, trilhas(name)"
-    )
-    .eq("status", "pending")
+    .select(CAMPOS)
+    .in("status", ["pending", "approved", "rejected"])
     .order("created_at", { ascending: true });
 
-  return (
-    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col px-6 py-10">
-      <h1 className="font-display text-2xl font-semibold text-foreground">Fila de aprovação</h1>
-      <p className="mt-1 text-sm text-muted">
-        {(pendentes ?? []).length} questão(ões) esperando revisão.
-      </p>
+  const todas = (questoes ?? []) as QuestaoAdmin[];
+  const pendentes = todas.filter((q) => q.status === "pending");
+  const aprovadas = todas.filter((q) => q.status === "approved");
+  const rejeitadas = todas.filter((q) => q.status === "rejected");
 
-      <div className="mt-6 flex flex-col gap-6">
-        {(pendentes ?? []).length === 0 && (
-          <p className="text-sm text-muted">Nada pendente no momento.</p>
-        )}
-        {(pendentes ?? []).map((q) => (
-          <QuestaoParaAprovar key={q.id} questao={q} />
+  return (
+    <div className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-6 py-10">
+      <h1 className="font-display text-2xl font-semibold text-foreground">Fila de aprovação</h1>
+
+      <Secao titulo="Pendentes de análise" questoes={pendentes} vazio="Nada pendente no momento." />
+      <Secao titulo="Aprovadas" questoes={aprovadas} vazio="Nenhuma questão aprovada ainda." />
+      <Secao titulo="Rejeitadas" questoes={rejeitadas} vazio="Nenhuma questão rejeitada." />
+    </div>
+  );
+}
+
+function Secao({
+  titulo,
+  questoes,
+  vazio,
+}: {
+  titulo: string;
+  questoes: QuestaoAdmin[];
+  vazio: string;
+}) {
+  return (
+    <section>
+      <h2 className="font-display text-lg font-semibold text-foreground">
+        {titulo} ({questoes.length})
+      </h2>
+      <div className="mt-3 flex flex-col gap-3">
+        {questoes.length === 0 && <p className="text-sm text-muted">{vazio}</p>}
+        {questoes.map((q) => (
+          <QuestaoItem key={q.id} questao={q} />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

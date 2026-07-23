@@ -1,22 +1,9 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Badge, type BadgeProps } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { buttonClasses } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
-
-const statusTone: Record<string, NonNullable<BadgeProps["tone"]>> = {
-  draft: "neutral",
-  pending: "warning",
-  approved: "success",
-  rejected: "danger",
-};
-
-const statusLabel: Record<string, string> = {
-  draft: "Rascunho",
-  pending: "Aguardando aprovação",
-  approved: "Aprovada",
-  rejected: "Rejeitada",
-};
+import { STATUS_LABEL, STATUS_TONE } from "@/lib/question-status";
 
 export default async function ProfessorPage() {
   const supabase = await createClient();
@@ -73,7 +60,7 @@ export default async function ProfessorPage() {
                   <p className="mt-1 text-xs text-danger">Motivo: {q.rejection_reason}</p>
                 )}
               </div>
-              <Badge tone={statusTone[q.status]}>{statusLabel[q.status]}</Badge>
+              <Badge tone={STATUS_TONE[q.status]}>{STATUS_LABEL[q.status]}</Badge>
             </Link>
           );
         })}

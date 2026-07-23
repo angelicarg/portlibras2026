@@ -1,24 +1,11 @@
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { Badge, type BadgeProps } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { QuestaoForm, type QuestaoFormValores } from "@/components/questao-form";
 import { QuestaoPreview, type QuestaoPreviewData } from "@/components/questao-preview";
 import { createClient } from "@/lib/supabase/server";
+import { STATUS_LABEL, STATUS_TONE } from "@/lib/question-status";
 import { atualizarQuestao } from "../../actions";
-
-const statusTone: Record<string, NonNullable<BadgeProps["tone"]>> = {
-  draft: "neutral",
-  pending: "warning",
-  approved: "success",
-  rejected: "danger",
-};
-
-const statusLabel: Record<string, string> = {
-  draft: "Rascunho",
-  pending: "Aguardando aprovação",
-  approved: "Aprovada",
-  rejected: "Rejeitada",
-};
 
 export default async function QuestaoDetalhePage({
   params,
@@ -66,7 +53,7 @@ export default async function QuestaoDetalhePage({
       <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-6 py-10">
         <div className="flex items-center justify-between">
           <h1 className="font-display text-2xl font-semibold text-foreground">{questao.title}</h1>
-          <Badge tone={statusTone[questao.status]}>{statusLabel[questao.status]}</Badge>
+          <Badge tone={STATUS_TONE[questao.status]}>{STATUS_LABEL[questao.status]}</Badge>
         </div>
         <p className="mt-1 text-sm text-muted">
           {questao.status === "pending"
@@ -110,7 +97,7 @@ export default async function QuestaoDetalhePage({
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col px-6 py-10">
       <div className="flex items-center justify-between">
         <h1 className="font-display text-2xl font-semibold text-foreground">Editar questão</h1>
-        <Badge tone={statusTone[questao.status]}>{statusLabel[questao.status]}</Badge>
+        <Badge tone={STATUS_TONE[questao.status]}>{STATUS_LABEL[questao.status]}</Badge>
       </div>
       {questao.status === "rejected" && questao.rejection_reason && (
         <p className="mt-3 rounded-lg border border-danger/30 bg-danger/5 p-3 text-sm text-danger">
