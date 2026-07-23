@@ -1,34 +1,45 @@
+import { redirect } from "next/navigation";
 import { AppHeader } from "@/components/shell/app-header";
 import { getExpressao, getGlowTier } from "@/lib/lumen-guia";
+import { createClient } from "@/lib/supabase/server";
 
-// TODO: substituir por sessão real do Supabase quando a autenticação for conectada.
-const mockUser = {
-  nome: "Ana",
-  activeRole: "jogador" as const,
-  pontos: 128,
-  visualSkin: "kids" as const,
-  diasInativo: 0,
-  ultimaResposta: "correta" as const,
-};
-
-export default function AppLayout({
+export default async function AppLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const lumenGlow = getGlowTier(mockUser.pontos);
-  const lumenExpressao = getExpressao({
-    diasInativo: mockUser.diasInativo,
-    ultimaResposta: mockUser.ultimaResposta,
-  });
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Dupla checagem como no site principal (aruana-digital-novo): o proxy.ts
+  // já redireciona quem não tem sessão, mas isso cobre o caso de o proxy não
+  // rodar por algum motivo (build estático, etc.) — nunca renderiza a área
+  // logada sem usuário confirmado.
+  if (!user) redirect("/login");
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("display_name, base_role, active_role, points, visual_skin")
+    .eq("id", user.id)
+    .single();
+
+  if (!profile) redirect("/login");
+
+  const lumenGlow = getGlowTier(profile.points);
+  // TODO: dias inativo / última resposta ainda não são calculados de verdade
+  // (dependem do histórico de question_attempts) — expressão neutra por ora.
+  const lumenExpressao = getExpressao({ diasInativo: 0, ultimaResposta: "correta" });
 
   return (
     <>
       <AppHeader
-        nome={mockUser.nome}
-        activeRole={mockUser.activeRole}
-        pontos={mockUser.pontos}
-        visualSkin={mockUser.visualSkin}
+        nome={profile.display_name}
+        baseRole={profile.base_role}
+        activeRole={profile.active_role}
+        pontos={profile.points}
+        visualSkin={profile.visual_skin}
         lumenGlow={lumenGlow}
         lumenExpressao={lumenExpressao}
       />

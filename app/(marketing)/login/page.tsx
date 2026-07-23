@@ -6,16 +6,33 @@ import Link from "next/link";
 import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Label, Input } from "@/components/ui/field";
 import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
   const router = useRouter();
   const [pending, setPending] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setErro(null);
     setPending(true);
-    // Mock: sem backend conectado ainda — qualquer login válido leva para /home.
-    setTimeout(() => router.push("/home"), 400);
+
+    const formData = new FormData(event.currentTarget);
+    const supabase = createClient();
+    const { error } = await supabase.auth.signInWithPassword({
+      email: String(formData.get("email")),
+      password: String(formData.get("password")),
+    });
+
+    if (error) {
+      setErro("E-mail ou senha inválidos.");
+      setPending(false);
+      return;
+    }
+
+    router.push("/home");
+    router.refresh();
   }
 
   return (
@@ -48,6 +65,7 @@ export default function LoginPage() {
               placeholder="••••••••"
             />
           </div>
+          {erro && <p className="text-sm text-red-600">{erro}</p>}
           <Button type="submit" disabled={pending} className="mt-2 w-full">
             {pending ? "Entrando…" : "Entrar"}
           </Button>
