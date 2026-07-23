@@ -31,6 +31,18 @@ export const ESPACOS_QUIZ: Partial<Record<TrilhaId, EspacoQuiz[]>> = {
     { numero: 3, nome: "Árvore das Mãos", tema: "Libras e comunicação gestual", top: 34, left: 72 },
     { numero: 4, nome: "Portal Violeta", tema: "Gramática e estrutura", top: 81, left: 85 },
   ],
+  espaco: [
+    { numero: 1, nome: "Lousa das Estrelas", tema: "Composição química das estrelas", top: 63, left: 65 },
+    { numero: 2, nome: "Telescópio", tema: "Observação astronômica", top: 88, left: 27 },
+    { numero: 3, nome: "Poço do Sistema Solar", tema: "Planetas e sistema solar", top: 85, left: 73 },
+    { numero: 4, nome: "Bússola Estelar", tema: "Constelações e orientação", top: 90, left: 48 },
+  ],
+  pensadores: [
+    { numero: 1, nome: "Livro de Da Vinci", tema: "Geometria, anatomia e proporção", top: 32, left: 78 },
+    { numero: 2, nome: "Ponte Musical", tema: "Música", top: 76, left: 16 },
+    { numero: 3, nome: "Tanque das Formas", tema: "Formas geométricas", top: 36, left: 20 },
+    { numero: 4, nome: "Portal do Tempo", tema: "Linha do tempo e história", top: 20, left: 88 },
+  ],
 };
 
 export function espacosDaJornada(jornada: TrilhaId): EspacoQuiz[] {
