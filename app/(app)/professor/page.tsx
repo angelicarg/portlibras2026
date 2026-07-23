@@ -59,9 +59,10 @@ export default async function ProfessorPage() {
         {(questoes ?? []).map((q) => {
           const trilha = Array.isArray(q.trilhas) ? q.trilhas[0] : q.trilhas;
           return (
-            <div
+            <Link
               key={q.id}
-              className="flex items-center justify-between gap-4 rounded-card border border-border bg-surface p-4"
+              href={`/professor/questoes/${q.id}`}
+              className="flex items-center justify-between gap-4 rounded-card border border-border bg-surface p-4 transition hover:border-primary/40"
             >
               <div>
                 <p className="font-medium text-foreground">{q.title}</p>
@@ -73,7 +74,7 @@ export default async function ProfessorPage() {
                 )}
               </div>
               <Badge tone={statusTone[q.status]}>{statusLabel[q.status]}</Badge>
-            </div>
+            </Link>
           );
         })}
       </div>

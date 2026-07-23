@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { NovaQuestaoForm } from "./form";
+import { QuestaoForm } from "@/components/questao-form";
+import { criarQuestao } from "../../actions";
 
 export default async function NovaQuestaoPage({
   searchParams,
@@ -38,7 +39,7 @@ export default async function NovaQuestaoPage({
         Sua questão passa por aprovação do admin antes de ficar visível pros jogadores.
       </p>
       {erro && <p className="mt-3 text-sm text-danger">{erro}</p>}
-      <NovaQuestaoForm trilhas={trilhas ?? []} />
+      <QuestaoForm trilhas={trilhas ?? []} action={criarQuestao} />
     </div>
   );
 }

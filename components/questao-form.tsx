@@ -6,18 +6,44 @@ import { Button } from "@/components/ui/button";
 import { espacosDaJornada } from "@/lib/espacos-quiz";
 import { TIPOS_DE_QUESTAO, NIVEIS_PROFICIENCIA } from "@/lib/question-types";
 import type { TrilhaId } from "@/components/ui/trilha-node";
-import { criarQuestao } from "../../actions";
 
-interface Trilha {
+export interface Trilha {
   id: string;
   slug: string;
   name: string;
 }
 
-export function NovaQuestaoForm({ trilhas }: { trilhas: Trilha[] }) {
-  const [trilhaId, setTrilhaId] = useState(trilhas[0]?.id ?? "");
-  const [alternativas, setAlternativas] = useState<string[]>(["", ""]);
-  const [correta, setCorreta] = useState(0);
+export interface QuestaoFormValores {
+  trilha_id: string;
+  espaco_numero: number;
+  tipo: string;
+  nivel_libras: string;
+  nivel_portugues: string;
+  titulo: string;
+  enunciado: string;
+  prompt_video_url: string;
+  image_url: string;
+  alternativas: string[];
+  correta: number;
+  correct_feedback_video_url: string;
+  incorrect_feedback_video_url: string;
+}
+
+// Formulário compartilhado por criar-questão e editar-questão — o que muda
+// entre os dois é só a `action` (server action) e se `valores` vem
+// preenchido com os dados já salvos.
+export function QuestaoForm({
+  trilhas,
+  action,
+  valores,
+}: {
+  trilhas: Trilha[];
+  action: (formData: FormData) => void;
+  valores?: QuestaoFormValores;
+}) {
+  const [trilhaId, setTrilhaId] = useState(valores?.trilha_id ?? trilhas[0]?.id ?? "");
+  const [alternativas, setAlternativas] = useState<string[]>(valores?.alternativas ?? ["", ""]);
+  const [correta, setCorreta] = useState(valores?.correta ?? 0);
 
   const trilhaAtual = trilhas.find((t) => t.id === trilhaId);
   const espacos = trilhaAtual ? espacosDaJornada(trilhaAtual.slug as TrilhaId) : [];
@@ -32,11 +58,11 @@ export function NovaQuestaoForm({ trilhas }: { trilhas: Trilha[] }) {
   }
 
   return (
-    <form action={criarQuestao} className="mt-6 flex flex-col gap-5">
+    <form action={action} className="mt-6 flex flex-col gap-5">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <Label htmlFor="tipo">Modelo</Label>
-          <Select id="tipo" name="tipo" required className="mt-1">
+          <Select id="tipo" name="tipo" required defaultValue={valores?.tipo} className="mt-1">
             {TIPOS_DE_QUESTAO.map((t) => (
               <option key={t.value} value={t.value}>
                 {t.label}
@@ -65,7 +91,13 @@ export function NovaQuestaoForm({ trilhas }: { trilhas: Trilha[] }) {
 
         <div>
           <Label htmlFor="espaco_numero">Espaço dentro da Jornada</Label>
-          <Select id="espaco_numero" name="espaco_numero" required className="mt-1">
+          <Select
+            id="espaco_numero"
+            name="espaco_numero"
+            required
+            defaultValue={valores?.espaco_numero}
+            className="mt-1"
+          >
             {espacos.map((e) => (
               <option key={e.numero} value={e.numero}>
                 {e.nome} — {e.tema}
@@ -77,7 +109,7 @@ export function NovaQuestaoForm({ trilhas }: { trilhas: Trilha[] }) {
         <div className="grid grid-cols-2 gap-3">
           <div>
             <Label htmlFor="nivel_libras">Nível em Libras</Label>
-            <Select id="nivel_libras" name="nivel_libras" required className="mt-1">
+            <Select id="nivel_libras" name="nivel_libras" required defaultValue={valores?.nivel_libras} className="mt-1">
               {NIVEIS_PROFICIENCIA.map((n) => (
                 <option key={n.value} value={n.value}>
                   {n.label}
@@ -87,7 +119,13 @@ export function NovaQuestaoForm({ trilhas }: { trilhas: Trilha[] }) {
           </div>
           <div>
             <Label htmlFor="nivel_portugues">Nível em Português</Label>
-            <Select id="nivel_portugues" name="nivel_portugues" required className="mt-1">
+            <Select
+              id="nivel_portugues"
+              name="nivel_portugues"
+              required
+              defaultValue={valores?.nivel_portugues}
+              className="mt-1"
+            >
               {NIVEIS_PROFICIENCIA.map((n) => (
                 <option key={n.value} value={n.value}>
                   {n.label}
@@ -100,7 +138,7 @@ export function NovaQuestaoForm({ trilhas }: { trilhas: Trilha[] }) {
 
       <div>
         <Label htmlFor="titulo">Título</Label>
-        <Input id="titulo" name="titulo" required className="mt-1" />
+        <Input id="titulo" name="titulo" required defaultValue={valores?.titulo} className="mt-1" />
       </div>
 
       <div>
@@ -110,6 +148,7 @@ export function NovaQuestaoForm({ trilhas }: { trilhas: Trilha[] }) {
           name="enunciado"
           required
           rows={3}
+          defaultValue={valores?.enunciado}
           className="mt-1 w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm text-foreground outline-none focus:border-primary"
         />
       </div>
@@ -117,11 +156,25 @@ export function NovaQuestaoForm({ trilhas }: { trilhas: Trilha[] }) {
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div>
           <Label htmlFor="prompt_video_url">Vídeo em Libras do enunciado (link do YouTube)</Label>
-          <Input id="prompt_video_url" name="prompt_video_url" type="url" required className="mt-1" />
+          <Input
+            id="prompt_video_url"
+            name="prompt_video_url"
+            type="url"
+            required
+            defaultValue={valores?.prompt_video_url}
+            className="mt-1"
+          />
         </div>
         <div>
           <Label htmlFor="image_url">Imagem de contexto (URL)</Label>
-          <Input id="image_url" name="image_url" type="url" required className="mt-1" />
+          <Input
+            id="image_url"
+            name="image_url"
+            type="url"
+            required
+            defaultValue={valores?.image_url}
+            className="mt-1"
+          />
         </div>
       </div>
 
@@ -181,6 +234,7 @@ export function NovaQuestaoForm({ trilhas }: { trilhas: Trilha[] }) {
             name="correct_feedback_video_url"
             type="url"
             required
+            defaultValue={valores?.correct_feedback_video_url}
             className="mt-1"
           />
         </div>
@@ -191,6 +245,7 @@ export function NovaQuestaoForm({ trilhas }: { trilhas: Trilha[] }) {
             name="incorrect_feedback_video_url"
             type="url"
             required
+            defaultValue={valores?.incorrect_feedback_video_url}
             className="mt-1"
           />
         </div>
