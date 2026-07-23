@@ -13,11 +13,18 @@ export interface LumenGuiaProps {
   className?: string;
 }
 
-const glowSpec: Record<LumenGlowTier, { blur: number; opacity: number; scale: number }> = {
-  suave: { blur: 6, opacity: 0.35, scale: 1 },
-  constante: { blur: 10, opacity: 0.5, scale: 1.03 },
-  vibrante: { blur: 14, opacity: 0.65, scale: 1.06 },
-  radiante: { blur: 20, opacity: 0.85, scale: 1.1 },
+// Faixas bem mais afastadas entre si do que a primeira versão (que rendia
+// quase imperceptível entre vibrante/radiante) — e as duas faixas de cima
+// pulsam (animação), já que movimento chama muito mais atenção do que só
+// blur/opacity estáticos maiores.
+const glowSpec: Record<
+  LumenGlowTier,
+  { blur: number; opacity: number; scale: number; pulse?: string }
+> = {
+  suave: { blur: 4, opacity: 0.22, scale: 1 },
+  constante: { blur: 10, opacity: 0.45, scale: 1.04 },
+  vibrante: { blur: 18, opacity: 0.7, scale: 1.1, pulse: "lumen-guia-pulse-vibrante 2.4s ease-in-out infinite" },
+  radiante: { blur: 28, opacity: 0.95, scale: 1.2, pulse: "lumen-guia-pulse-radiante 1.5s ease-in-out infinite" },
 };
 
 // A arte só tem 5 expressões (neutro/calmo/surpreso/feliz/triste, ver lib/lumens.ts) —
@@ -56,6 +63,7 @@ export function LumenGuia({ skin, glow, expressao, size = "md", className }: Lum
           opacity: g.opacity,
           filter: `blur(${g.blur}px)`,
           transform: `scale(${g.scale})`,
+          animation: g.pulse,
         }}
       />
       <Image

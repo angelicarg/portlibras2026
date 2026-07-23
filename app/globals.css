@@ -122,6 +122,32 @@ body {
   }
 }
 
+/* Pulso do brilho do Lumen Guia nas 2 faixas de cima (vibrante/radiante) —
+   as 2 de baixo (suave/constante) ficam estáticas, só blur/opacity/escala. */
+@keyframes lumen-guia-pulse-vibrante {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1.05);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.14);
+  }
+}
+
+@keyframes lumen-guia-pulse-radiante {
+  0%,
+  100% {
+    opacity: 0.75;
+    transform: scale(1.12);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.28);
+  }
+}
+
 @keyframes lumen-path-c {
   0%,
   100% {
