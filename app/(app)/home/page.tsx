@@ -55,8 +55,8 @@ const mockJornadas: Array<{
   top: number;
   left: number;
 }> = [
-  { id: "espaco", nome: "Exploração Espacial", estado: "bloqueada", conquistas: 0, top: 6, left: 51 },
-  { id: "pensadores", nome: "Grandes Pensadores", estado: "bloqueada", conquistas: 0, top: 47, left: 88 },
+  { id: "espaco", nome: "Exploração Espacial", estado: "em-andamento", conquistas: 0, top: 6, left: 51 },
+  { id: "pensadores", nome: "Grandes Pensadores", estado: "em-andamento", conquistas: 0, top: 47, left: 88 },
   { id: "sociedade", nome: "Vida em Sociedade", estado: "em-andamento", conquistas: 0, top: 78, left: 50 },
   // TODO: simulação — 1 conquista pra testar a insígnia na árvore (ver
   // conversa 2026-07-22). Zerar ou plugar progresso real quando o Supabase

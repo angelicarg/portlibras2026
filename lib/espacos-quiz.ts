@@ -32,15 +32,15 @@ export const ESPACOS_QUIZ: Partial<Record<TrilhaId, EspacoQuiz[]>> = {
     { numero: 4, nome: "Portal Violeta", tema: "Gramática e estrutura", top: 81, left: 85 },
   ],
   espaco: [
-    { numero: 1, nome: "Portal Esquerdo", tema: "Constelações e orientação", top: 28, left: 39 },
-    { numero: 2, nome: "Portal Direito", tema: "Exploração espacial", top: 27, left: 63 },
-    { numero: 3, nome: "Portal Central", tema: "Composição química das estrelas", top: 58, left: 50 },
-    { numero: 4, nome: "Poço do Sistema Solar", tema: "Planetas e sistema solar", top: 73, left: 73 },
+    { numero: 1, nome: "Portal Esquerdo", tema: "Constelações e orientação", top: 34, left: 39 },
+    { numero: 2, nome: "Portal Direito", tema: "Exploração espacial", top: 33, left: 63 },
+    { numero: 3, nome: "Portal Central", tema: "Composição química das estrelas", top: 64, left: 50 },
+    { numero: 4, nome: "Poço do Sistema Solar", tema: "Planetas e sistema solar", top: 79, left: 73 },
   ],
   pensadores: [
     { numero: 1, nome: "Livro de Da Vinci", tema: "Geometria, anatomia e proporção", top: 64, left: 87 },
     { numero: 2, nome: "Ponte Musical", tema: "Música", top: 13, left: 13 },
-    { numero: 3, nome: "Tanque das Formas", tema: "Formas geométricas", top: 42, left: 10 },
+    { numero: 3, nome: "Tanque das Formas", tema: "Formas geométricas", top: 58, left: 11 },
     { numero: 4, nome: "Portal do Tempo", tema: "Linha do tempo e história", top: 20, left: 88 },
   ],
 };
