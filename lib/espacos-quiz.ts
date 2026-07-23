@@ -32,15 +32,15 @@ export const ESPACOS_QUIZ: Partial<Record<TrilhaId, EspacoQuiz[]>> = {
     { numero: 4, nome: "Portal Violeta", tema: "Gramática e estrutura", top: 81, left: 85 },
   ],
   espaco: [
-    { numero: 1, nome: "Lousa das Estrelas", tema: "Composição química das estrelas", top: 63, left: 65 },
-    { numero: 2, nome: "Telescópio", tema: "Observação astronômica", top: 88, left: 27 },
-    { numero: 3, nome: "Poço do Sistema Solar", tema: "Planetas e sistema solar", top: 85, left: 73 },
-    { numero: 4, nome: "Bússola Estelar", tema: "Constelações e orientação", top: 90, left: 48 },
+    { numero: 1, nome: "Portal Esquerdo", tema: "Constelações e orientação", top: 28, left: 39 },
+    { numero: 2, nome: "Portal Direito", tema: "Exploração espacial", top: 27, left: 63 },
+    { numero: 3, nome: "Portal Central", tema: "Composição química das estrelas", top: 58, left: 50 },
+    { numero: 4, nome: "Poço do Sistema Solar", tema: "Planetas e sistema solar", top: 73, left: 73 },
   ],
   pensadores: [
-    { numero: 1, nome: "Livro de Da Vinci", tema: "Geometria, anatomia e proporção", top: 32, left: 78 },
-    { numero: 2, nome: "Ponte Musical", tema: "Música", top: 76, left: 16 },
-    { numero: 3, nome: "Tanque das Formas", tema: "Formas geométricas", top: 36, left: 20 },
+    { numero: 1, nome: "Livro de Da Vinci", tema: "Geometria, anatomia e proporção", top: 64, left: 87 },
+    { numero: 2, nome: "Ponte Musical", tema: "Música", top: 13, left: 13 },
+    { numero: 3, nome: "Tanque das Formas", tema: "Formas geométricas", top: 42, left: 10 },
     { numero: 4, nome: "Portal do Tempo", tema: "Linha do tempo e história", top: 20, left: 88 },
   ],
 };
